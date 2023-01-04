@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sistema de batimento de ponto</title>
+  <style>
+    /* Adicione algum estilo para deixar a página mais bonita */
+    body {
+      font-family: sans-serif;
+    }
+    form {
+      width: 300px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    input[type=date], input[type=time] {
+      width: 100%;
+      height: 40px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+    input[type=button] {
+      width: 100%;
+      height: 40px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    input[type=button]:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <form>
+    Data: <input type="date" id="data"><br>
+    Hora: <input type="time" id="hora"><br>
+    <input type="button" value="Bater ponto" onclick="baterPonto()">
+  </form>
+
+  <div id="tempo-trabalhado"></div>
+
+  <script>
+    function baterPonto() {
+      // Obtenha a data e a hora do formulário
+      var data = document.getElementById('data').value;
+      var hora = document.getElementById('hora').value;
+
+      // Crie um objeto de data com a data e a hora fornecidas
+      var agora = new Date(data + ' ' + hora);
+
+      // Obtenha a data e a hora do último batimento de ponto
+      var ultimoPonto = localStorage.getItem('ultimoPonto');
+      if (ultimoPonto) {
+        ultimoPonto = new Date(ultimoPonto);
+      } else {
+        ultimoPonto = agora;
+      }
+
+      // Calcule a diferença entre as duas datas em minutos
+      var diff = Math.abs(agora - ultimoPonto) / 1000 / 60;
+
+      // Exiba o tempo trabalhado
+      document.getElementById('tempo-trabalhado').innerHTML = diff + ' minutos';
+
+      // Armazene a data e a hora atuais como o último batimento de ponto
+      localStorage.setItem('ultimoPonto', agora);
+    }
+  </script>
+</body>
+</html>
